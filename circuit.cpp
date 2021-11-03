@@ -90,8 +90,14 @@ private :
 
 public :
     //コンストラクタ
+    Power()
+    {
+        Power(0.0);
+    }
+
     Power(float v)
     {
+        voltage = v;
         Object::Rename("POWER");
     }
 
