@@ -19,10 +19,11 @@ class Object
 protected : 
     int id;
     char name[32];
+    virtual float voltage;
 
 public :
     //コンストラクタ
-    Object()
+    Object() : voltage(0.0)
     {
         object_id++;
         id = object_id;
@@ -33,11 +34,32 @@ public :
         }
     }
 
+    //名前の変更
     void Rename(const char *str)
     {
         strcpy(object_name[id],str);
         strcpy(name,str);
     }
+
+    //状態表示
+    void ShowId()
+    {
+        printf("ID:%d\n",id);
+    }
+
+    void ShowName()
+    {
+        printf("Name:%s\n",name);
+    }
+
+    void ShowVoltage()
+    {
+        printf("Voltage:%fV\n",voltage);
+    }
+
+    //電荷ゲッターセッター
+    virtual float GetVoltage(){return voltage;}
+    virtual void  SetVoltage(float v){voltage = v;}
 };
 
 
@@ -85,8 +107,6 @@ public :
 //-------------------
 class Power : public Object
 {
-private :
-    float voltage = 0.0;
 
 public :
     //コンストラクタ
@@ -97,12 +117,10 @@ public :
 
     Power(float v)
     {
-        voltage = v;
+        this->voltage = v;
         Object::Rename("POWER");
     }
 
-    float GetVoltage(){return voltage;}
-    void  SetVoltage(float v){voltage = v;}
 };
 
 
@@ -113,7 +131,6 @@ public :
 class Connecter : public Object
 {
 private :
-    float voltage;          // 電圧
     unsigned int length;    // 長さ
     Destination destination1;   // 接続先1
     Destination destination2;   // 接続先2
@@ -121,7 +138,6 @@ private :
 public :
     //コンストラクタ
     Connecter() :
-        voltage(0.0) ,
         length(120)  
     {
         destination1 = Destination();
@@ -130,13 +146,20 @@ public :
     }
 
     // ゲッターセッター
-    float GetVoltage(){return voltage;}
-    void SetVoltage(float v); //Gateクラス参照の為、後定義
+    void SetVoltage(float v); //Gateクラス参照の為、外定義
     unsigned int GetLength(){return length;}
     void SetLength(unsigned int l){length = l;}
     Destination *GetDestination1(){return &destination1;}
     void SetDestination1(Destination *d){destination1.OverWrite(d);}
-    void SetDestination1(Object *a,int c,bool d){destination1.SetAttrbute(a,c,d);}
+    void SetDestination1(Object *a,int c,bool d)
+    {
+        //TODO:ここで繋がった際に電圧を変異させる
+
+        //繋げる
+        destination1.SetAttrbute(a,c,d);
+        //TODO:aをGateへキャストして双方向繋げる
+    }
+
     Destination *GetDestination2(){return &destination2;}
     void SetDestination2(Destination *d){destination2.OverWrite(d);}
     void SetDestination2(Object *a,int c,bool d){destination2.SetAttrbute(a,c,d);}
@@ -155,8 +178,8 @@ private :
 
 protected :
     //入出力系ゲッターセッター
-    float GetVoltage(int index);
-    void  SetVoltage(float v,int index);
+    float GetVoltage(int index);          //Connecerクラス参照の為、外定義
+    void  SetVoltage(float v,int index);  //Connecerクラス参照の為、外定義
 
 public : 
     //コンストラクタ
@@ -221,7 +244,7 @@ public :
 
 
 //-------------------
-//相互参照の為の後定義
+//相互参照の為の外定義
 //-------------------
 void  Connecter::SetVoltage(float v)
 {
@@ -277,14 +300,15 @@ int main()
     // [GND] --(1)-- | 2        |
     connecter0.SetDestination1(&power5V,0,DIRECTION_OUT);
     connecter0.SetDestination2(&nand,1,DIRECTION_IN);
+    printf("out0:%fV\n",connecter0.GetVoltage());
 
     connecter1.SetDestination1(&GND,0,DIRECTION_OUT);
     connecter1.SetDestination2(&nand,2,DIRECTION_IN);
+    printf("out1:%fV\n",connecter1.GetVoltage());
 
     connecter2.SetDestination1(&nand,0,DIRECTION_OUT);
     connecter2.SetDestination2(nullptr,0,DIRECTION_OUT);
-
-    printf("出力:%fV\n",connecter2.GetVoltage());
+    printf("out2:%fV\n",connecter2.GetVoltage());
 
 
     return 0;
