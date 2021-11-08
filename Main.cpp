@@ -34,25 +34,14 @@ int main( void )
     Connecter c2 = Connecter();
     Connecter c3 = Connecter();
 
-    // [P5V( 1)] --[c2]-- | (2)            |
-    //                    |     [NAND] (7) | --[c1]--
-    // [GND(14)] --[c3]-- | (3)            |
-
-    //接続
-    c1.Connect(&nand,7,2);
-    c2.Connect(&nand,2,1);
-    c3.Connect(&nand,3,1);
-    c2.Connect(&P5V ,1,1);
-    c3.Connect(&GND ,14,1);
-
-
 
     //memo
     printf("\n");
-    printf("  [PW5V] --(c5)-- |      |          \n");
-    printf("                  | NAND | --(c4)-- \n");
-    printf("  [PW0V] --(c6)-- |      |          \n");
+    printf("  [PW5V] --(c2)-- |      |          \n");
+    printf("                  | NAND | --(c1)-- \n");
+    printf("  [PW0V] --(c3)-- |      |          \n");
     printf("\n");
+
     //デバッグ：全オブジェクト一覧表示
     printf("--------------------------------------------\n");
     printf("Id |  アドレス  |  オブジェクト名  | 電圧   \n");
@@ -67,7 +56,16 @@ int main( void )
         );
     }
     printf("--------------------------------------------\n");
-    
 
+    // [P5V( 1)] --[c2]-- | (2)            |
+    //                    |     [NAND] (7) | --[c1]--
+    // [GND(14)] --[c3]-- | (3)            |
+
+    //接続
+    c1.Connect(&nand,7,2);
+    c2.Connect(&nand,2,1);
+    c3.Connect(&nand,3,1);
+    c2.Connect(&P5V ,1,2);
+    c3.Connect(&GND ,14,2);
     return 0;
 }

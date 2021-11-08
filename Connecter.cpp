@@ -84,11 +84,13 @@ BO Connecter::SetDestination(Destination *destination)
 //-----------------
 VD Connecter::SetDestination1(Destination *destination)
 {
+    printf("%p,%d,%d\n",destination->address,destination->channel,destination->direction);
     destination1 = *destination;
 }
 
 VD Connecter::SetDestination2(Destination *destination)
 {
+    printf("%p,%d,%d\n",destination->address,destination->channel,destination->direction);
     destination2 = *destination;
 }
 
@@ -102,12 +104,12 @@ VD Connecter::SetVoltage(F4 v)
     if( voltage != v )
     {
         //接続トリガの呼び出し
-        if( nullptr != destination1.address && destination1.direction == 2 )
+        if( nullptr != destination1.address && destination1.direction == 1 )
         {
             ((Connected *)destination1.address)->InputVoltageTriger(&destination1);
         }
 
-        if( nullptr != destination2.address && destination2.direction == 2  )
+        if( nullptr != destination2.address && destination2.direction == 1  )
         {
             ((Connected *)destination2.address)->InputVoltageTriger(&destination2);
         }
