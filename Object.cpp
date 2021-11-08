@@ -27,7 +27,7 @@ VD *object_addr[OBJECT_NUM_MAX];
 //-----------------
 //コンストラクタ
 //-----------------
-Object::Object()
+Object::Object() : voltage(0.0)
 {
     object_id++;
     id = object_id;
@@ -48,31 +48,6 @@ VD Object::Rename(const C1 *str)
 }
 
 //-----------------
-//表示
-//-----------------
-VD Object::ShowId()
-{
-    printf("ID:%d\n",id);
-}
-
-VD Object::ShowName()
-{
-    printf("Name:%s\n",name);
-}
-
-VD Object::ShowVoltage()
-{
-    printf("Voltage:%fV\n",voltage);
-}
-
-VD Object::ShowStatus()
-{
-    ShowId();
-    ShowName();
-    ShowVoltage();
-}
-
-//-----------------
 //セッターゲッター
 //-----------------
 F4 Object::GetVoltage()
@@ -83,4 +58,14 @@ F4 Object::GetVoltage()
 VD Object::SetVoltage(F4 v)
 {
     voltage = v;
+}
+
+U4 Object::GetId()
+{
+    return id;
+}
+
+C1 *Object::GetName()
+{
+    return name;
 }

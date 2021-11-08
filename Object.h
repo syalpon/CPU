@@ -25,15 +25,13 @@ public :
     //名前の変更
     VD Rename(const C1 *str);
 
-    //状態表示
-    VD ShowId();
-    VD ShowName();
-    VD ShowVoltage();
-    VD ShowStatus();
-
     //電荷ゲッターセッター
     virtual F4 GetVoltage();
     virtual VD SetVoltage(F4);
+
+    //idのゲッター
+    virtual U4 GetId();
+    virtual C1 *GetName();
 };
 
 #endif

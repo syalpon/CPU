@@ -45,10 +45,14 @@ VD Connecter::Connect(Connected *connected,U1 channel, U1 direction)
     isConnected = SetDestination(&temp1);
     if( true == isConnected )
     {
+        //printf("[%d:%s]と[%d:%s]を接続\n",id,name,connected->GetId(),connected->GetName());
         connected->ConnectTriger(&temp2);
     }
 }
 
+//-----------------
+//空いてるポートを探して接続
+//-----------------
 BO Connecter::SetDestination(Destination *destination)
 {
     BO ret = false;

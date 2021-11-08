@@ -26,10 +26,9 @@ Power::Power()
     Rename("Power");
 }
 
-Power::Power(F4 v)
+Power::Power(F4 v) : Power()
 {
     voltage = v;
-    Power();
 }
 
 
