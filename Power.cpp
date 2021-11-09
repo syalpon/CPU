@@ -6,6 +6,8 @@
 //Include Files
 //--------------------------------------------------
 #include "Power.h"
+#include "Connecter.h"
+#include <stdio.h>
 
 //--------------------------------------------------
 //Global variables
@@ -33,9 +35,11 @@ Power::Power(F4 v) : Power()
 
 
 //-----------------
-//接続時、電荷を与える
+//接続時
 //-----------------
 VD Power::ConnectTriger(Destination *destination)
 { 
+    //コネクタに電荷を与える
     destination->address->SetVoltage(voltage);
+
 }

@@ -11,4 +11,7 @@ g++ -c Nand.cpp
 g++ -o Main Main.o Object.o Destination.o Connecter.o Connected.o Power.o Nand.o
 
 @rem 実行
+PAUSE
+CHCP 65001
+cls
 Main.exe

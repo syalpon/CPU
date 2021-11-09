@@ -23,7 +23,7 @@ protected :
 
 public :
     Connecter();
-    VD Connect(Connected * ,U1 , U1 );
+    VD Connect(Connected * ,U1 , DIRECTION );
     BO SetDestination(Destination *);
 
     // Setter

@@ -11,6 +11,7 @@
 #include "Connected.h"
 #include "Type.h"
 //--------------------------------------------------
+//  1  : VCC
 class Power : public Connected
 {
 public :

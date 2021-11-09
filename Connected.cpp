@@ -23,6 +23,15 @@
 //-----------------
 Connected::Connected()
 {
+    for(int i=0;i<7;i++)
+    {
+        destinationIn[i].address = nullptr;
+        destinationIn[i].channel = 0;
+        destinationIn[i].direction = DIRECTION_INIT;
+        destinationOut[i].address = nullptr;
+        destinationOut[i].channel = 0;
+        destinationOut[i].direction = DIRECTION_INIT;
+    }
     Rename("Connected");
 }
 
@@ -40,4 +49,23 @@ VD Connected::InputVoltageTriger(Destination *destination)
 VD Connected::ConnectTriger(Destination *destination)
 {
 
+}
+
+//-----------------
+//ゲッター
+//-----------------
+VD Connected::Setdestination(Destination *destination,U1 channel)
+{
+    if( destination->address != nullptr )
+    {
+        //TODO:Destation一本化
+        if(channel > 7)
+        {
+            destinationOut[channel-7] = *destination;
+        }
+        else
+        {
+            destinationIn[channel] = *destination;
+        }
+    }    
 }

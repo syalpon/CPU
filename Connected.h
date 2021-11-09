@@ -26,6 +26,8 @@ public :
     Connected();
     virtual VD InputVoltageTriger(Destination *);
     virtual VD ConnectTriger(Destination *);
+
+    VD Setdestination(Destination *,U1);
 };
 
 
