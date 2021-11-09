@@ -48,6 +48,10 @@ VD Connecter::Connect(Connected *connected,U1 channel, U1 direction)
         //printf("[%d:%s]と[%d:%s]を接続\n",id,name,connected->GetId(),connected->GetName());
         connected->ConnectTriger(&temp2);
     }
+    else
+    {
+        printf("Connect失敗\n");
+    }
 }
 
 //-----------------
