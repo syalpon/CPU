@@ -21,8 +21,14 @@
 //-----------------
 //コンストラクタ
 //-----------------
-Connected::Connected()
+Connected::Connected() : Connected(1)
 {
+
+}
+
+Connected::Connected(U1 destinationNum)
+{
+    destination = new Destination[destinationNum];
     for(int i=0;i<7;i++)
     {
         destinationIn[i].address = nullptr;
@@ -68,4 +74,12 @@ VD Connected::Setdestination(Destination *destination,U1 channel)
             destinationIn[channel] = *destination;
         }
     }    
+}
+
+//-----------------
+//デストラクタ
+//-----------------
+Connected::~Connected()
+{
+    delete destination;
 }

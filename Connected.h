@@ -19,11 +19,14 @@
 class Connected : public Object
 {
 protected :
+    Destination *destination;
     Destination destinationIn[PIN_NUM];
     Destination destinationOut[PIN_NUM];
     
 public : 
     Connected();
+    Connected(U1);
+    ~Connected();
     virtual VD InputVoltageTriger(Destination *);
     virtual VD ConnectTriger(Destination *);
 

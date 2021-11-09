@@ -48,8 +48,8 @@ VD Nand::InputVoltageTriger(Destination *destination)
         Connecter *c1 = (Connecter *)destinationIn[ch1].address;
         Connecter *c2 = (Connecter *)destinationIn[ch2].address;
         Connecter *co = (Connecter *)destinationOut[cho].address;
-            printf("%d,%d,%d\n",ch1,ch2,cho);
-            printf("%p,%p,%p\n",c1,c2,co);       
+        //    printf("%d,%d,%d\n",ch1,ch2,cho);
+        //    printf("%p,%p,%p\n",c1,c2,co);       
         if(  c1 != nullptr && c2 != nullptr && co != nullptr )
         {
             //NAND計算した結果を返す
