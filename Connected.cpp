@@ -6,6 +6,7 @@
 //Include Files
 //--------------------------------------------------
 #include "Connected.h"
+#include <stdio.h>
 
 //--------------------------------------------------
 //Global variables
@@ -21,57 +22,64 @@
 //-----------------
 //コンストラクタ
 //-----------------
-Connected::Connected() : Connected(1)
+Connected::Connected() : Connected(DESTINATION_MIN)
 {
-
+    //DO NOTHING
 }
 
 Connected::Connected(U1 destinationNum)
 {
-    destination = new Destination[destinationNum];
-    for(int i=0;i<7;i++)
+    //インスタンス化時に接続先情報の数を増やせるようにする。
+    if( IS_WELL_DEFINED(destinationNum) )
     {
-        destinationIn[i].address = nullptr;
-        destinationIn[i].channel = 0;
-        destinationIn[i].direction = DIRECTION_INIT;
-        destinationOut[i].address = nullptr;
-        destinationOut[i].channel = 0;
-        destinationOut[i].direction = DIRECTION_INIT;
+        destination = new Destination[destinationNum];
+        for( int i = 0 ; i < destinationNum ; i++ )
+        {
+            destination[i].address   = ADDRESS_INIT;
+            destination[i].channel   = CHANNEL_INIT;
+            destination[i].direction = DIRECTION_INIT;
+        }
     }
+    else
+    {
+        //数が範囲外の入力の際はエラーMSG表示
+        printf("ERROR : channel = %d IS DESTINATION OVER IN CONNECTED CONSTRUCTOR\n",destinationNum);
+    }
+
     Rename("Connected");
 }
 
 //-----------------
-//入力電圧変化時に呼び出されるメソッド
+//コネクタオブジェクトの電圧変化時に呼び出されるメソッド(入力ポートのみ)
 //-----------------
 VD Connected::InputVoltageTriger(Destination *destination)
 {
-    // No Process
+    //DO NOTHING
 }
 
 //-----------------
-//接続時に呼び出されるメソッド
+//コネクタオブジェクトと接続時に呼び出されるメソッド
 //-----------------
 VD Connected::ConnectTriger(Destination *destination)
 {
-
+    //DO NOTHING
 }
 
 //-----------------
 //ゲッター
 //-----------------
-VD Connected::Setdestination(Destination *destination,U1 channel)
+VD Connected::Setdestination(Destination *dest,U1 channel)
 {
-    if( destination->address != nullptr )
+    if( dest->address != nullptr )
     {
-        //TODO:Destation一本化
-        if(channel > 7)
+        if( IS_WELL_DEFINED(channel) )
         {
-            destinationOut[channel-7] = *destination;
+            destination[channel] = *dest;    
         }
         else
         {
-            destinationIn[channel] = *destination;
+            //数が範囲外の入力の際はエラーMSG表示
+            printf("ERROR : channel = %d IS DESTINATION OVER IN CONNECTED Setdestination\n",channel);            
         }
     }    
 }

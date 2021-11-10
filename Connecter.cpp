@@ -25,9 +25,9 @@
 //-----------------
 Connecter::Connecter()
 {
-    destination1 = {nullptr,0,DIRECTION_INIT};
-    destination2 = {nullptr,0,DIRECTION_INIT};
-    length       = 0;
+    destination1 = {ADDRESS_INIT,CHANNEL_INIT,DIRECTION_INIT};
+    destination2 = {ADDRESS_INIT,CHANNEL_INIT,DIRECTION_INIT};
+    length       = 120;
 
     Rename("Connecter");
 }
@@ -38,8 +38,7 @@ Connecter::Connecter()
 VD Connecter::Connect(Connected *connected,U1 channel, DIRECTION direction)
 {
     bool isConnected; //繋げられたかどうか
-    U1 ch = channel > 7 ? channel - 7 : channel;            //TODO見直し
-    Destination temp1 = {connected,     ch  ,direction};    //相手への繋げる情報：Connectedクラス
+    Destination temp1 = {connected,  channel,direction};    //相手への繋げる情報：Connectedクラス
     Destination temp2 = {this     ,CONNECTER,direction};    //自分への繋げる情報：Connecterクラス
 
     //接続
@@ -50,9 +49,8 @@ VD Connecter::Connect(Connected *connected,U1 channel, DIRECTION direction)
         if( connected != nullptr )
         {
             printf("[%d:%s]と[%d:%s]を接続\n",id,name,connected->GetId(),connected->GetName());
-            //双方向で繋げる
-            connected->Setdestination(&temp2,ch);
-            connected->ConnectTriger(&temp2);   //繋げたときにイベントを実行させる。
+            connected->Setdestination(&temp2,channel);  //双方向で繋げる
+            connected->ConnectTriger(&temp2);           //繋げたときにイベントを実行させる。
         }
         else
         {
@@ -114,8 +112,10 @@ VD Connecter::SetLength(U4 l)
 
 VD Connecter::SetVoltage(F4 v)
 {  
-    if( voltage != v )
+    if( ( voltage != v ) || true ) //無効化
     {
+         voltage = v;
+
         //接続トリガの呼び出し
         if( nullptr != destination1.address && destination1.direction == DIRECTION_IN )
         {
@@ -125,9 +125,7 @@ VD Connecter::SetVoltage(F4 v)
         if( nullptr != destination2.address && destination2.direction == DIRECTION_IN  )
         {
             ((Connected *)destination2.address)->InputVoltageTriger(&destination2);
-        }
-
-        voltage = v;
+        }    
     }
 }
 

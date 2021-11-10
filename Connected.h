@@ -16,12 +16,14 @@
 #include "Type.h"
 
 //--------------------------------------------------
+#define DESTINATION_MAX     ((U1)15)
+#define DESTINATION_MIN     ((U1)1)
+#define IS_WELL_DEFINED(x)  ((DESTINATION_MIN<=x)&&(x<=DESTINATION_MAX))
+
 class Connected : public Object
 {
 protected :
     Destination *destination;
-    Destination destinationIn[PIN_NUM];
-    Destination destinationOut[PIN_NUM];
     
 public : 
     Connected();

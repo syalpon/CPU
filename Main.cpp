@@ -25,6 +25,9 @@ extern VD *object_addr[OBJECT_NUM_MAX];
 //--------------------------------------------------
 //Functions
 //--------------------------------------------------
+static VD DebugDisplay();
+static VD DebugSettingShow();
+
 int main( void )
 {
     //オブジェクト生成
@@ -39,6 +42,37 @@ int main( void )
     Power GND    = Power();
     Nand nand    = Nand();
 
+    //接続
+    c1.Connect(&nand,  PIN( 1), DIRECTION_IN);  //NANDとVCCへのコネクタ
+    c2.Connect(&nand,  PIN( 2), DIRECTION_IN);  //NANDと5Vへのコネクタ
+    c3.Connect(&nand,  PIN( 3), DIRECTION_IN);  //NANDと0Vへのコネクタ
+    c4.Connect(&nand,  PIN( 4), DIRECTION_OUT); //NANDとOUTPUTへのコネクタ
+    c5.Connect(&nand,  PIN(14), DIRECTION_OUT); //NANDとGNDへのコネクタ
+
+    c1.Connect(&P12V,  PIN( 1), DIRECTION_OUT);  //NANDからのコネクタとVCC
+    c5.Connect(&GND,   PIN( 1), DIRECTION_IN );  //NANDからのコネクタとGND
+    c4.Connect(nullptr,      0, DIRECTION_IN );  //NANDからのコネクタとOUTPUTへのコネクタ
+    c3.Connect(&P0V,   PIN( 1), DIRECTION_OUT);  //NANDからのコネクタと0Vへのコネクタ 
+    c2.Connect(&P5V,   PIN( 1), DIRECTION_OUT);  //NANDからのコネクタと5Vへのコネクタ
+
+    //デバッグ：全オブジェクト一覧表示
+    DebugDisplay();
+
+    // 全体図表示
+    DebugSettingShow();
+
+    c3.SetVoltage(5.0);
+
+    //デバッグ：全オブジェクト一覧表示
+    DebugDisplay();
+
+    return 0;
+}
+
+
+
+static VD DebugDisplay()
+{
     //デバッグ：全オブジェクト一覧表示
     printf("--------------------------------------------\n");
     printf("Id |  アドレス  |  オブジェクト名  | 電圧    \n");
@@ -53,34 +87,20 @@ int main( void )
         );
     }
     printf("--------------------------------------------\n");
+}
 
-    //接続
-    c1.Connect(&nand,  PIN( 1), DIRECTION_IN);  //NANDとVCCへのコネクタ
-    c2.Connect(&nand,  PIN( 2), DIRECTION_IN);  //NANDと5Vへのコネクタ
-    c3.Connect(&nand,  PIN( 3), DIRECTION_IN);  //NANDと0Vへのコネクタ
-    c4.Connect(&nand,  PIN( 4), DIRECTION_OUT); //NANDとOUTPUTへのコネクタ
-    c5.Connect(&nand,  PIN(14), DIRECTION_OUT); //NANDとGNDへのコネクタ
-
-    c1.Connect(&P12V,  PIN( 1), DIRECTION_OUT);  //NANDからのコネクタとVCC
-    c5.Connect(&GND,   PIN( 1), DIRECTION_IN );  //NANDからのコネクタとGND
-    c4.Connect(nullptr,      0, DIRECTION_IN );  //NANDからのコネクタとOUTPUTへのコネクタ
-    c3.Connect(&P0V,   PIN( 1), DIRECTION_OUT);  //NANDからのコネクタと0Vへのコネクタ 
-    c2.Connect(&P5V,   PIN( 1), DIRECTION_OUT);  //NANDからのコネクタと5Vへのコネクタ
-
-    
-    // Desplay
+static VD DebugSettingShow()
+{
     printf("\n");
-    printf("                   -------------                 \n");
-    printf("  [PW12V] >-(c1)-> + 1      8  +                 \n");
-    printf("  [PW 5V] >-(c2)-> + 2      9  +                 \n");
-    printf("  [PW 0V] >-(c3)-> + 3      10 +                 \n");
-    printf("  ( OUT ) <-(c4)-< + 4 NAND 11 +                 \n");
-    printf("                   + 5      12 +                 \n");
-    printf("                   + 6      13 +                 \n");
-    printf("                   + 7      14 + >-(c5)-> [PW 0V]\n");
-    printf("                   -------------                 \n");
+    printf("                   -------------               \n");
+    printf("  [PW12V] --(c1)-- + 1      8  +               \n");
+    printf("  [PW 5V] --(c2)-- + 2      9  +               \n");
+    printf("  [PW 0V] --(c3)-- + 3      10 +               \n");
+    printf("  ( OUT ) --(c4)-- + 4 NAND 11 +               \n");
+    printf("                   + 5      12 +               \n");
+    printf("                   + 6      13 +               \n");
+    printf("                   + 7      14 + --(c5)-- [GND]\n");
+    printf("                   -------------               \n");
     printf("\n");
 
-
-    return 0;
 }

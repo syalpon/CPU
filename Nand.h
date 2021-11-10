@@ -20,9 +20,6 @@
 //  7  : NAND2_OUT | 14 : GND
 class Nand : public Connected
 {
-private :
-    U1 GetPartner(U1);
-    
 public :
     Nand();
     VD InputVoltageTriger(Destination *destination); //override
