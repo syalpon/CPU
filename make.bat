@@ -1,0 +1,1 @@
+g++ BaseCircuit.cpp circuit.cpp -o cpu
