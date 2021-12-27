@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <cstring>
-#define OBJECT_NUM_MAX (256)
+#define OBJECT_NUM_MAX (128)
 #define DIRECTION_IN  (true)
 #define DIRECTION_OUT (false)
 
