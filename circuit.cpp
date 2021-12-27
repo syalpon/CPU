@@ -19,7 +19,7 @@ class Object
 protected : 
     int id;
     char name[32];
-    virtual float voltage;
+    float voltage;
 
 public :
     //コンストラクタ
